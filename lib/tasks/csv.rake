@@ -1,5 +1,5 @@
 namespace :csv do
-  desc "TODO"
+  desc "Ingest data from CSV"
   task import_data: :environment do
   end
 
