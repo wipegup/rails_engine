@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
-  before :each do
-
-
-  end
   describe 'class methods' do
     it '.most_revenue(limit)' do
 
@@ -61,5 +57,12 @@ RSpec.describe Merchant, type: :model do
 
     end
   end
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe 'validations' do
+    it {should validate_presence_of :name}
+  end
+
+  describe 'relationships' do
+    it {should have_many :items}
+  end
 end
