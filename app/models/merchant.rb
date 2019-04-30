@@ -15,4 +15,16 @@ class Merchant < ApplicationRecord
     return query.limit(limit) if limit
     query
   end
+
+  def self.most_items(limit = nil)
+
+    query = joins(:transactions)
+    .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
+    .group(:id)
+    .order(Arel.sql('SUM(invoice_items.quantity) DESC'))
+    .where('transactions.result = 0')
+
+    return query.limit(limit) if limit
+    query
+  end
 end
