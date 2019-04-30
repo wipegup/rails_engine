@@ -9,8 +9,9 @@ class Merchant < ApplicationRecord
     query = joins(:transactions)
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
     .group(:id)
-    .order(Arel.sql('SUM(invoice_items.quantity * invoice_items.unit_price) DESC'))
+    .order(Arel.sql('revenue DESC'))
     .where('transactions.result = 0')
+    .select('merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) as revenue')
 
     return query.limit(limit) if limit
     query
@@ -21,8 +22,9 @@ class Merchant < ApplicationRecord
     query = joins(:transactions)
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
     .group(:id)
-    .order(Arel.sql('SUM(invoice_items.quantity) DESC'))
+    .order(Arel.sql('items_sold DESC'))
     .where('transactions.result = 0')
+    .select('merchants.*, SUM(invoice_items.quantity) as items_sold')
 
     return query.limit(limit) if limit
     query
