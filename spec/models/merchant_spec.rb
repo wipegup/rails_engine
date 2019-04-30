@@ -27,6 +27,8 @@ RSpec.describe Merchant, type: :model do
 
       expect(actual).to eq(expected)
 
+      expect(actual[0][:revenue]).to eq(16)
+
       expected = @merchants[2..4].reverse
       actual = Merchant.most_revenue(3)
 
@@ -44,6 +46,7 @@ RSpec.describe Merchant, type: :model do
       actual = Merchant.most_items(2)
 
       expect(actual).to eq(expected)
+      expect(actual[0][:items_sold]).to eq(4)
 
       expected = @merchants[2..4].reverse
       actual = Merchant.most_items(3)
