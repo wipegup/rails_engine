@@ -18,7 +18,14 @@ namespace :csv do
       data = CSV.open(data_directory + path, headers: true, header_converters: :symbol)
 
       data.each do |row|
-        model.create!(row.to_hash)
+        hash = row.to_hash
+
+        if hash[:unit_price] != nil
+          price = hash[:unit_price].to_i / 100.0
+          hash[:unit_price] = price
+        end
+
+        model.create!(hash)
       end
     end
 

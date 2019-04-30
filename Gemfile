@@ -19,6 +19,7 @@ gem 'puma', '~> 3.11'
 gem 'rspec-rails'
 gem 'pry'
 gem 'csv'
+gem 'faker'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
