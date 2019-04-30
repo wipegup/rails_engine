@@ -1,7 +1,8 @@
 class Merchant < ApplicationRecord
+  validates_presence_of :name
   has_many :items
-  
+
   def self.most_revenue(limit = nil)
-    binding.pry
+    # binding.pry
   end
 end
