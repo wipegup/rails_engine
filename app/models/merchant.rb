@@ -4,8 +4,16 @@ class Merchant < ApplicationRecord
   has_many :invoices
   has_many :transactions, through: :invoices
 
-  def self.most_revenue(limit = nil)
 
+  def revenue
+    transactions
+    .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
+    .where('transactions.result = 0')
+    .sum("invoice_items.quantity * invoice_items.unit_price")
+
+  end
+
+  def self.most_revenue(limit = nil)
     query = joins(:transactions)
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
     .group(:id)
@@ -18,7 +26,6 @@ class Merchant < ApplicationRecord
   end
 
   def self.most_items(limit = nil)
-
     query = joins(:transactions)
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
     .group(:id)
