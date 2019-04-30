@@ -4,19 +4,25 @@ RSpec.describe Merchant, type: :model do
   describe 'class methods' do
     it '.most_revenue(limit)' do
 
-      merchants = []; items = []
+      merchants = []; invoices = []; items = []
       5.times do
         merchant = create(:merchant)
+        invoice = create(:invoice, merchant: merchant)
         item = create(:item, merchant: merchant)
-        merchants << merchant; items << item
+        merchants << merchant; invoices << invoice; items << item
       end
-      invoices = create_list(:invoice, 5)
+      # binding.pry
       invoices.each_with_index do |invoice, idx|
         create(:invoice_item, unit_price: idx, quantity: idx, invoice: invoice, item: items[idx])
         create(:transaction, result: 'success', invoice: invoice)
+
         if idx % 3 == 0
           create(:transaction, result: 'failed', invoice: invoice)
+
+
         end
+
+        # binding.pry
       end
 
       expected = merchants[3..4].reverse
