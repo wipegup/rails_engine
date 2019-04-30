@@ -5,11 +5,23 @@ namespace :csv do
     # model_directory.each{ |model| require model}
 
     data_directory = "#{Rails.root}/db/data/"
+    association = {
+      "customers.csv" => Customer,
+      "merchants.csv" => Merchant,
+      "items.csv" => Item,
+      "invoices.csv" => Invoice,
+      "invoice_items.csv" => InvoiceItem,
+      "transactions.csv" => Transaction
+    }
+    association.each do |path, model|
+      puts path
+      data = CSV.open(data_directory + path, headers: true, header_converters: :symbol)
 
-    customers = CSV.open(data_directory + "customers.csv", headers: true, header_converters: :symbol)
-    customers.each do |row|
-      Customer.new(row)
+      data.each do |row|
+        model.create!(row.to_hash)
+      end
     end
+
     binding.pry
   end
 
