@@ -67,7 +67,8 @@ RSpec.describe Merchant, type: :model do
 
   describe 'instance methods' do
     it '.revenue' do
-
+      actual = @merchants[4].revenue
+      expect(actual).to eq(16)
     end
 
     it '.revenue(date)' do
