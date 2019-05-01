@@ -6,7 +6,6 @@ describe "Invoice Items API" do
     @desired_attributes = ['id','item_id','invoice_id','quantity','unit_price']
   end
   it "sends a list of invoice_items" do
-    create_list(:invoice_item, 3)
 
     get '/api/v1/invoice_items.json'
 
@@ -22,7 +21,7 @@ describe "Invoice Items API" do
 
   it "sends a single invoice_item" do
     id = InvoiceItem.last.id
-    get "/api/v1/invoice_item/#{id}.json"
+    get "/api/v1/invoice_items/#{id}.json"
 
     expect(response).to be_successful
     item = JSON.parse(response.body)
