@@ -20,6 +20,7 @@ gem 'rspec-rails'
 gem 'pry'
 gem 'csv'
 gem 'faker'
+gem 'fast_jsonapi'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
