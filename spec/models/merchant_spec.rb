@@ -93,7 +93,7 @@ RSpec.describe Merchant, type: :model do
     end
 
     it '.favorite_customer' do
-
+      
     end
   end
 

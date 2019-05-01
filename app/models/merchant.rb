@@ -12,11 +12,19 @@ class Merchant < ApplicationRecord
 
   end
 
-  def revenue
+  def revenue(date_range = nil)
+    if date_range != nil
+      date_range = {transactions:
+        {updated_at:
+          [date_range.beginning_of_day..date_range.end_of_day]}}
+    end
+
     transactions
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
     .where('transactions.result = 0')
+    .where(date_range)
     .sum("invoice_items.quantity * invoice_items.unit_price")
+
   end
 
   def self.most_revenue(limit = nil)
