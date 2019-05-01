@@ -55,7 +55,6 @@ describe "Customers API" do
     items = JSON.parse(response.body)
 
     expect(items['data'].count).to eq(3)
-    # binding.pry
     invoice_attributes.each do |attribute|
       assert(items['data'][0]['attributes'].include?(attribute))
     end
@@ -69,5 +68,15 @@ describe "Customers API" do
     @desired_attributes.each do |attribute|
       expect(item['data']['attributes'][attribute]).to eq(customer[attribute])
     end
+  end
+
+  it 'finds all customers by name' do
+
+    get "/api/v1/customers/find_all?first_name=Customer"
+    expect(response).to be_successful
+    binding.pry
+    items = JSON.parse(response.body)
+
+    expect(items['data'].count).to eq(3)
   end
 end
