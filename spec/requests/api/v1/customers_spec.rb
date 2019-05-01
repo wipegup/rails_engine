@@ -47,7 +47,7 @@ describe "Customers API" do
 
   it 'returns all customer invoices' do
     customer = Customer.last
-    get "/api/v1/customers/#{customer.id}/items.json"
+    get "/api/v1/customers/#{customer.id}/invoices.json"
 
     invoice_attributes = ['id','merchant_id','customer_id']
     expect(response).to be_successful
@@ -55,9 +55,9 @@ describe "Customers API" do
     items = JSON.parse(response.body)
 
     expect(items['data'].count).to eq(3)
-
+    binding.pry
     invoice_attributes.each do |attribute|
-      assert(item['data']['attributes'].include?(attribute))
+      assert(items['data'][0]['attributes'].include?(attribute))
     end
   end
 end
