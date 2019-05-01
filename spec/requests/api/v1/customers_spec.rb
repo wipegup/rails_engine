@@ -21,8 +21,18 @@ describe "Customers API" do
   end
 
   it "sends a single customer" do
-    cust_id = Customer.last.id
-    get "/api/v1/customers/#{cust_id}.json"
+    customer = Customer.last
+    get "/api/v1/customers/#{customer.id}.json"
+
+    expect(response).to be_successful
+    item = JSON.parse(response.body)
+    @desired_attributes.each do |attribute|
+      expect(item['data']['attributes'][attribute]).to eq(customer[attribute])
+    end
+  end
+
+  it "returns a random customer" do
+    get "/api/vi/customers/random.json"
 
     expect(response).to be_successful
     item = JSON.parse(response.body)
@@ -30,5 +40,4 @@ describe "Customers API" do
       assert(item['data']['attributes'].include?(attribute))
     end
   end
-
 end
