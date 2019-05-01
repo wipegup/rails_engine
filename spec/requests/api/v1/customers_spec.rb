@@ -7,5 +7,8 @@ describe "Customers API" do
     get '/api/v1/customers.json'
 
     expect(response).to be_successful
+
+    items = JSON.parse(response.body)
+    
   end
 end
