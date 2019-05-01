@@ -1,6 +1,5 @@
 class Api::V1::Customers::RelationsController < RelationsController
-  def show
+  def initialize
     @model = Customer
-    super
   end
 end

@@ -1,7 +1,6 @@
 class Api::V1::Customers::FindController < FindController
-  def show
+  def initialize
     @search_terms = [:id,:first_name,:last_name]
     @model = Customer
-    super
   end
 end
