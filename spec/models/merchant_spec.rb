@@ -7,7 +7,7 @@ RSpec.describe Merchant, type: :model do
     5.times do
       merchant = create(:merchant)
       customer = create(:customer)
-      invoice = create(:invoice, merchant: merchant, customer:customer))
+      invoice = create(:invoice, merchant: merchant, customer:customer)
       item = create(:item, merchant: merchant)
       @merchants << merchant; @invoices << invoice;
       @items << item; @customers << customer
@@ -17,7 +17,6 @@ RSpec.describe Merchant, type: :model do
       create(:invoice_item, unit_price: idx, quantity: idx, invoice: invoice, item: @items[idx])
       date = idx.day.ago
       create(:transaction, result: 'success', invoice: invoice, created_at:date, updated_at:date)
-
 
       if idx % 3 == 0
         create(:transaction, result: 'failed', invoice: invoice)

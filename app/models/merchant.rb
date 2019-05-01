@@ -9,7 +9,16 @@ class Merchant < ApplicationRecord
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
     .where(transactions:{updated_at: [date.beginning_of_day..date.end_of_day]})
     .sum("invoice_items.quantity * invoice_items.unit_price")
+  end
 
+  def favorite_customer
+    Customer
+    .joins(invoices: :transactions)
+    .where('transactions.result = 0')
+    .where(invoices: {merchant_id: self[:id]})
+    .group(:id)
+    .order(Arel.sql("COUNT(customers.id) DESC"))
+    .first
   end
 
   def revenue(date_range = nil)
@@ -24,7 +33,6 @@ class Merchant < ApplicationRecord
     .where('transactions.result = 0')
     .where(date_range)
     .sum("invoice_items.quantity * invoice_items.unit_price")
-
   end
 
   def self.most_revenue(limit = nil)
@@ -35,18 +43,15 @@ class Merchant < ApplicationRecord
     .where('transactions.result = 0')
     .select('merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) as revenue')
     .limit(limit)
-
   end
 
   def self.most_items(limit = nil)
-    query = joins(:transactions)
+    joins(:transactions)
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')
     .group(:id)
     .order(Arel.sql('items_sold DESC'))
     .where('transactions.result = 0')
     .select('merchants.*, SUM(invoice_items.quantity) as items_sold')
-
-    return query.limit(limit) if limit
-    query
+    .limit(limit)
   end
 end
