@@ -2,12 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
   before :each, full_setup: true do
-    @merchants = []; @invoices = []; @items = []
+    @merchants = []; @invoices = []
+    @items = []; @customers = []
     5.times do
       merchant = create(:merchant)
-      invoice = create(:invoice, merchant: merchant)
+      customer = create(:customer)
+      invoice = create(:invoice, merchant: merchant, customer:customer))
       item = create(:item, merchant: merchant)
-      @merchants << merchant; @invoices << invoice; @items << item
+      @merchants << merchant; @invoices << invoice;
+      @items << item; @customers << customer
     end
 
     @invoices.each_with_index do |invoice, idx|
@@ -92,8 +95,9 @@ RSpec.describe Merchant, type: :model do
       expect(actual).to eq(expected)
     end
 
-    it '.favorite_customer' do
-      
+    it '.favorite_customer', :full_setup do
+      expect(@merchants[1].favorite_customer).to eq(@customers[1])
+      expect(@merchants[2].favorite_customer).to eq(@customers[2])
     end
   end
 
