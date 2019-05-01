@@ -63,7 +63,7 @@ describe "Customers API" do
 
   it 'finds customer by id' do
     customer = Customer.last
-    get "/api/v1/customers/find?id=#{customer.id}"
+    get "/api/v1/customers/find?id=#{customer.id}&name=that"
     expect(response).to be_successful
     item = JSON.parse(response.body)
     @desired_attributes.each do |attribute|

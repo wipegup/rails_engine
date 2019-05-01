@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :customers do
         get '/:id/:relation', to: 'relations#show'
+        get '/find', to: 'find#show'
       end
       resources :merchants, only: [:index]
       # get '/customers/:id/:relation', to: 'customer_relations#show'
