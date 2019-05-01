@@ -1,7 +1,6 @@
-class Api::V1::Customers::RelationsController < ApplicationController
+class Api::V1::Customers::RelationsController < RelationsController
   def show
-    customer = Customer.find(params[:id])
-    relation = params[:relation].to_sym
-    render json: serializers[relation].new(customer.send relation)
+    @model = Customer
+    super
   end
 end
