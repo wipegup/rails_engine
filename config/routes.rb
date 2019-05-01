@@ -2,8 +2,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      namespace :customers do
+        get '/:id/:relation', to: 'relations#show'
+      end
       resources :merchants, only: [:index]
-      get '/customers/:id/:relation', to: 'customer_relations#show'
+      # get '/customers/:id/:relation', to: 'customer_relations#show'
       resources :customers, only: [:index, :show]
       resources :items, only: [:index]
       resources :invoices, only: [:index]
