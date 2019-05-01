@@ -79,8 +79,17 @@ RSpec.describe Merchant, type: :model do
       expect(actual).to eq(16)
     end
 
-    it '.revenue(date)' do
+    it '.revenue(date)', :full_setup do
+      merchant = @merchants[2]
+      two_days_ago = 2.day.ago.to_date
 
+      expected = 4
+      actual = merchant.revenue(two_days_ago)
+      expect(actual).to eq(expected)
+
+      expected = 0
+      actual = merchant.revenue(Date.today)
+      expect(actual).to eq(expected)
     end
 
     it '.favorite_customer' do
