@@ -32,7 +32,7 @@ describe "Customers API" do
   end
 
   it "returns a random customer" do
-    get "/api/vi/customers/random.json"
+    get "/api/v1/customers/random.json"
 
     expect(response).to be_successful
     item = JSON.parse(response.body)
