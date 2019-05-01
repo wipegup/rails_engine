@@ -64,12 +64,12 @@ RSpec.describe Merchant, type: :model do
     end
 
     it '.revenue(date)', :full_setup do
-      two_days_ago = 2.day.ago
+      two_days_ago = 2.day.ago.to_date
       expected = 4
       actual = Merchant.revenue(two_days_ago)
 
       expect(actual).to eq(expected)
-      
+
     end
   end
 
