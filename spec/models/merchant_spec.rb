@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
-  before :each do
+  before :each, full_setup: true do
     @merchants = []; @invoices = []; @items = []
     5.times do
       merchant = create(:merchant)
@@ -12,15 +12,18 @@ RSpec.describe Merchant, type: :model do
 
     @invoices.each_with_index do |invoice, idx|
       create(:invoice_item, unit_price: idx, quantity: idx, invoice: invoice, item: @items[idx])
-      create(:transaction, result: 'success', invoice: invoice)
+      date = idx.day.ago
+      create(:transaction, result: 'success', invoice: invoice, created_at:date, updated_at:date)
+
 
       if idx % 3 == 0
         create(:transaction, result: 'failed', invoice: invoice)
       end
     end
   end
+
   describe 'class methods' do
-    it '.most_revenue(limit)' do
+    it '.most_revenue(limit)', :full_setup do
 
       expected = @merchants[3..4].reverse
       actual = Merchant.most_revenue(2)
@@ -40,7 +43,7 @@ RSpec.describe Merchant, type: :model do
       expect(actual).to eq(expected)
     end
 
-    it '.most_items(limit)' do
+    it '.most_items(limit)', :full_setup do
 
       expected = @merchants[3..4].reverse
       actual = Merchant.most_items(2)
@@ -60,13 +63,14 @@ RSpec.describe Merchant, type: :model do
 
     end
 
-    it '.revenue(date)' do
+    it '.revenue(date)', :full_setup do
 
+      binding.pry
     end
   end
 
   describe 'instance methods' do
-    it '.revenue' do
+    it '.revenue', :full_setup do
       actual = @merchants[4].revenue
       expect(actual).to eq(16)
     end
