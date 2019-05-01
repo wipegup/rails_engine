@@ -4,6 +4,6 @@ class FindController < ApplicationController
     @search_terms.each{ |term| search_hash[term] = params[term] if params[term]}
 
     individual = @model.find_by(search_hash)
-    render json: serializers[@model].new(individual)
+    render json: serializers[to_sym(@model)].new(individual)
   end
 end
