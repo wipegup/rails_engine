@@ -74,7 +74,6 @@ describe "Customers API" do
 
     get "/api/v1/customers/find_all?first_name=Customer"
     expect(response).to be_successful
-    binding.pry
     items = JSON.parse(response.body)
 
     expect(items['data'].count).to eq(3)
