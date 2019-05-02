@@ -15,13 +15,6 @@ class ApplicationController < ActionController::API
   end
 
   def build_search_hash
-    # binding.pry
-    # search_hash = {}
-    # @search_terms.each{ |term| search_hash[term] = params[term] if params[term]}
-
-    # @search_terms.zip(@search_terms.map{|t|params[t]}).to_h.compact
-    # search_hash
-
     @search_terms.inject({}) do |hash,key|
       hash[key]=params[key]
       hash

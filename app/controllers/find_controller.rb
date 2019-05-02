@@ -11,6 +11,5 @@ class FindController < ApplicationController
 
     all_matching = @model.where(search_hash)
     render json: serializers[to_sym(@model)].new(all_matching)
-
   end
 end

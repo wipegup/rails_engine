@@ -2,14 +2,16 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      namespace :customers do
-        get '/:id/:relation', to: 'relations#show'
-        get '/find', to: 'find#show'
-        get '/find_all', to: 'find#index'
-      end
       resources :merchants, only: [:index]
-      # get '/customers/:id/:relation', to: 'customer_relations#show'
-      resources :customers, only: [:index, :show]
+      resources :customers, only: [:index, :show] do
+        scope module: 'customers' do
+          collection do
+            get 'find', to: 'find#show'
+            get 'find_all', to: 'find#index'
+          end
+          resources :invoices, only: [:index]
+        end
+      end
       resources :items, only: [:index]
       resources :invoices, only: [:index]
       resources :invoice_items, only: [:index, :show]
