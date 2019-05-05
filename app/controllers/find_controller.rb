@@ -1,15 +1,12 @@
-class FindController < ApplicationController
-  def show
-    search_hash = build_search_hash
+class FindController < RenderController
 
-    individual = @model.find_by(search_hash)
-    render json: serializers[to_sym(@model)].new(individual)
+  def show
+    @individual = @model.find_by(search_hash)
+    super
   end
 
   def index
-    search_hash = build_search_hash
-
-    all_matching = @model.where(search_hash)
-    render json: serializers[to_sym(@model)].new(all_matching)
+    @list = @model.where(search_hash)
+    super
   end
 end

@@ -22,9 +22,21 @@ RSpec.describe Merchant, type: :model do
         create(:transaction, result: 'failed', invoice: invoice)
       end
     end
+
+    @pending_customers = create_list(:customer, 2)
+    @no_trans_inv = create(:invoice, customer: @pending_customers[0], merchant: @merchants[0])
+    @all_failed_inv = create(:invoice, customer: @pending_customers[1], merchant: @merchants[0])
+    create(:transaction, invoice:@all_failed_inv, result: 'failed')
   end
 
   describe 'class methods' do
+
+    it '.pending_invoices', :full_setup do
+      @pending_customers.each do |pending|
+        expect(@merchants[0].pending_invoices.include?(pending)).to eq(true)
+      end
+    end
+
     it '.most_revenue(limit)', :full_setup do
 
       expected = @merchants[3..4].reverse

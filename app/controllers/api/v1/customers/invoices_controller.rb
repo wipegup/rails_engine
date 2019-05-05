@@ -1,9 +1,6 @@
- class Api::V1::Customers::InvoicesController < RelationsController
+ class Api::V1::Customers::InvoicesController < Api::V1::Customers::BaseController
    def initialize
      @relation = :invoices
-   end
-   def index
-     @individual = Customer.find(params[:customer_id])
      super
    end
  end

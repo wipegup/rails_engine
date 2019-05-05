@@ -1,9 +1,5 @@
-class Api::V1::InvoiceItemsController < ApplicationController
-  def index
-    render json: InvoiceItemSerializer.new(InvoiceItem.all)
-  end
-
-  def show
-    render json: InvoiceItemSerializer.new(InvoiceItem.find(params[:id]))
+class Api::V1::InvoiceItemsController < RenderController
+  def initialize
+    @model = InvoiceItem
   end
 end

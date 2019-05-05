@@ -4,6 +4,23 @@ class Merchant < ApplicationRecord
   has_many :invoices
   has_many :transactions, through: :invoices
 
+  def pending_invoices
+    Customer
+      .joins(:invoices)
+      .joins("LEFT OUTER JOIN transactions ON transactions.invoice_id = invoices.id")
+      .where(invoices: {merchant_id: id})
+      .group("invoices.id", :id)
+      .having("COUNT(CASE WHEN transactions.result = 0 THEN 1 ELSE NULL END) = 0")
+#
+#       Customer.find_by_sql("SELECT c.* FROM customers AS c
+# INNER JOIN invoices AS i ON i.customer_id = c.id
+# LEFT OUTER JOIN transactions AS t ON t.invoice_id = i.id
+# WHERE i.merchant_id = #{id}
+# GROUP BY i.id, c.id
+# HAVING COUNT(CASE WHEN t.result = 0 THEN 1 ELSE NULL END) = 0;
+# ")
+  end
+
   def self.revenue(date)
     joins(:transactions)
     .joins('INNER JOIN "invoice_items" ON "invoice_items"."invoice_id" = "invoices"."id"')

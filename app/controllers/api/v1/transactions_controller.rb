@@ -1,4 +1,5 @@
-class Api::V1::TransactionsController < ApplicationController
-  def index
+class Api::V1::TransactionsController < RenderController
+  def initialize
+    @model = Transaction
   end
 end
